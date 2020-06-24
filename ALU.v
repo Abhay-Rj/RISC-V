@@ -14,8 +14,7 @@ always@(AluOp,A,B)
 			4'b0010 : ALUresult<= A+B;			//ADD
 			4'b0110 : ALUresult<= A-B;		//SUB
 			4'b0111 : ALUresult<= (A<B)?1:0;	// SLT
-			4'b1100 : ALUresult<= ~(A|B);	//NOR
-
+			4'b1100 : ALUresult<= (A^B);	//XOR
 			4'b1101 : ALUresult<= A<<B; 	//sll
 			4'b1110 : ALUresult<= A>>B;			//srl
 			4'b1000 : ALUresult<= A>>>B;	//sra
