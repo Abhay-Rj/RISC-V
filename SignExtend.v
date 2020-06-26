@@ -26,12 +26,3 @@ assign Ins = Instruction;
 			endcase // Opcode
 		end
 endmodule
-
-module Shft1(Out,In); // Left shift by 1 bit
-
-output [31:0] Out;
-input  [31:0] In;
-
-assign Out={In[30:0],1'b0};
-
-endmodule

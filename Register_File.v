@@ -10,7 +10,7 @@ module RegisterFile(data1,data2,read1,read2,writeReg,writeData,Clk,Rst,regWen);
 	begin
 		if(~Rst) 
 			begin
-			 	$readmemh("Register_File.txt",registerbank);
+			 	$readmemh("Rmem.txt",registerbank);
 			 end
 	end
 	

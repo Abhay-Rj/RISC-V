@@ -7,7 +7,7 @@ module DataMemoryFile(ReadData,Address,WriteData,memWrite,memRead,Clk,Rst);
 
 	reg        [7:0] dataMem [0:63];  //8x64 Bits = 64 Byte memory
 
-	initial begin $readmemh("Data_Memory.txt",dataMem);  end
+	initial begin $readmemh("Dmem.txt",dataMem);  end
 	
 	assign ReadData1 =(memRead)?{dataMem[Address+2'b11],dataMem[Address+2'b10],dataMem[Address+2'b01],dataMem[Address]}:32'hZZZZZZZZ;
 				// Scoops 4 8 bit memory locations at a time in Little Endian
