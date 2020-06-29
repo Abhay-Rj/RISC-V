@@ -1,13 +1,17 @@
 // Main Controller
-module Control(Opcode,funct3,ALUsrc,MemtoReg,RegWrite,MemRead,MemWrite,AddSel,Link,Branch,ALUOp,Lui);
+module Control(Opcode,funct3,ALUsrc,MemtoReg,RegWrite,MemRead,MemWrite,AddSel,Link,Branch1,Branch0,ALUOp,Lui);
 
-output 	reg ALUsrc,RegWrite,MemWrite,MemtoReg,MemRead,RegDst,AddSel,Link,Branch,Lui;
+output 	reg ALUsrc,RegWrite,MemWrite,MemtoReg,MemRead,RegDst,AddSel,Link,Lui;
+output wire  Branch1,Branch0;
 output [1:0] ALUOp;
 input  [6:0] Opcode;
 input  [2:0] funct3;
 
 reg ALUOp1,ALUOp0;
+reg    [1:0] Branch;
+initial begin Branch =2'b00; end
 
+assign {Branch1,Branch0}=Branch;
 assign ALUOp= {ALUOp1,ALUOp0};
 	
 	always@(Opcode)
@@ -23,7 +27,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'bX;
 					Link		= 1'b0;
 					Lui  		= 1'b0;
-					Branch		= 1'b0;
+					Branch		= 2'b00;
 					ALUOp1		= 1'b1;
 					ALUOp0		= 1'b0;
 				end
@@ -38,7 +42,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'bX;
 					Link		= 1'b0;
 					Lui  		= 1'b0;
-					Branch		= 1'b0;
+					Branch		= 2'b00;
 					ALUOp1		= 1'b0;
 					ALUOp0		= 1'b0;
 				end
@@ -52,7 +56,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'bX;
 					Link		= 1'b0;
 					Lui  		= 1'b0;
-					Branch		= 1'b0;
+					Branch		= 2'b00;
 					ALUOp1		= 1'b1;
 					ALUOp0		= 1'b1;
 				end
@@ -66,7 +70,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'b1;
 					Link		= 1'b1;
 					Lui  		= 1'b0;
-					Branch		= 1'b1;
+					Branch		= 2'b10;
 					ALUOp1		= 1'b0;
 					ALUOp0		= 1'b1;
 				end
@@ -80,7 +84,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'bX;
 					Link		= 1'b0;
 					Lui  		= 1'b0;
-					Branch		= 1'b0;
+					Branch		= 2'b00;
 					ALUOp1		= 1'b0;
 					ALUOp0		= 1'b0;
 				end
@@ -95,7 +99,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'b0;
 					Link		= 1'b0;
 					Lui  		= 1'b0;
-					Branch		= funct3[2]^funct3[0];
+					Branch		= {1'b1,funct3[2]^funct3[0]};
 					ALUOp1		= 1'b0;
 					ALUOp0		= 1'b1;
 				end
@@ -109,7 +113,7 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'bX;
 					Link		= 1'b0;
 					Lui  		= 1'b1;
-					Branch		= 1'b0;
+					Branch		= 2'b00;
 					ALUOp1		= 1'b0;  //config ALU to Add
 					ALUOp0		= 1'b0;
 				end
@@ -123,21 +127,21 @@ assign ALUOp= {ALUOp1,ALUOp0};
 					AddSel		= 1'b1;
 					Link		= 1'b1;
 					Lui  		= 1'b0;
-					Branch		= 1'b1;
+					Branch		= 2'b10;
 					ALUOp1		= 1'b0;
 					ALUOp0		= 1'b1;
 				end
 			default:
 					begin
-						ALUsrc 		= 1'bZ;
-						MemtoReg	= 1'bZ;
-						RegWrite	= 1'bZ;
-						MemRead		= 1'bZ;
-						MemWrite	= 1'bZ;
-						AddSel		= 1'bZ;
-						Link		= 1'bZ;
-						Lui  		= 1'bZ;
-						Branch		= 1'bZ;
+						ALUsrc 		= 1'b0;
+						MemtoReg	= 1'b0;
+						RegWrite	= 1'b0;
+						MemRead		= 1'b0;
+						MemWrite	= 1'b0;
+						AddSel		= 1'b1;
+						Link		= 1'b0;
+						Lui  		= 1'b0;
+						Branch		= 2'b00;
 						ALUOp1		= 1'bZ;
 						ALUOp0		= 1'bZ;
 					end
@@ -152,7 +156,7 @@ input  		[2:0] funct3;
 input		[6:0] funct7;
 input  		[1:0] AluOp;
 
-	always@(AluOp,funct3)
+	always@(AluOp,funct3,funct7)
 		begin
 		case(AluOp)
 			2'b00 : // LW or SW 

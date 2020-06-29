@@ -12,7 +12,11 @@ assign Ins = Instruction;
 	always@(Instruction)
 		begin
 			case(Opcode)
-				7'b0000011,7'b0010011,7'b1100111 : Out = {{20{Ins[31]}},Ins[31:20]};
+				7'b0000011 : Out = {{20{Ins[31]}},Ins[31:20]};
+				// 12 Bit Imm at Ins[31:20] for I-type (Load,Arith,Jalr)
+				7'b0010011 : Out = {{20{Ins[31]}},Ins[31:20]};
+				// 12 Bit Imm at Ins[31:20] for I-type (Load,Arith,Jalr)
+				7'b1100111 : Out = {{20{Ins[31]}},Ins[31:20]};
 				// 12 Bit Imm at Ins[31:20] for I-type (Load,Arith,Jalr)
 				7'b0100011	: Out = {{20{Ins[31]}},Ins[31:25],Ins[11:7]};
 				// 12 Bit Imm at Ins[31:25],Ins[11:7] for S-Type

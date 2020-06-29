@@ -9,7 +9,7 @@ reg Rst,Clk;
 initial begin
 	Rst=1'b0;
 	Clk =1'b0;
-	#1 Rst=1'b1;
+	#5 Rst=1'b1;
 
 	forever	#5 Clk = !Clk;
 	end
@@ -21,6 +21,6 @@ initial
       $dumpvars(0, TB);
 
 
-	#100 $finish;
+	#200 $finish;
 	end
 endmodule
