@@ -40,6 +40,7 @@ module Pops(Clk,Rst);
 	wire [3:0] ALUCnt;
 	wire [4:0] Rd_EX;
 	wire [6:0] funct7;
+	wire [7:0] ControlWire2;
 	wire [31:0] ALUresult,A,B,A0,B0,A1,B1;
 	wire [31:0] Imm32,BrAdd,PC_EX,data1_Ex,data2_Ex;
 
@@ -88,7 +89,7 @@ assign PCSrc = (zero_MEM^branch_MEM)||Link_MEM ;
 
 	Add 	PCAddressIncrement(PC_4,PC,32'd4);		             // Adder for PC increment PC_4=PC+4
 
-	InstructionMemoryFile IMF (AddressIn,Instruction,Clk,Rst); // Instruction Memory
+	InstructionMemoryFile IMF (PC,Instruction,Clk,Rst); // Instruction Memory
 
 	Mux2 	PCAddressSel(PCin,PC_4,OffsetAddress,PCSrc);      // Next Address Selection 32 bit wide 2X1 Mux
 
@@ -261,7 +262,7 @@ always@(*)				// Stall due to Load
 			begin
 				stallIF=1'b0;
 				stallID=1'b0;
-				NOP=1'b1;
+				NOP=1'b0;
 			end
 	end
 

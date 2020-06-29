@@ -21,7 +21,7 @@ begin
 		2'b01: Out=I1;
 		2'b10: Out=I2;
 		2'b11: Out=I3;
-		default: Out=2'bXX;
+		default: Out=I0;
 	endcase // Sel
 end
 endmodule

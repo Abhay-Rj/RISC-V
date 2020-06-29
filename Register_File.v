@@ -6,6 +6,8 @@ module RegisterFile(data1,data2,read1,read2,writeReg,writeData,Clk,Rst,regWen);
 
 	reg       	 [31:0] registerbank [0:31];
 
+initial begin $readmemh("Rmem.txt",registerbank); end
+
 	always @(posedge Clk) 
 	begin
 		if(~Rst) 
